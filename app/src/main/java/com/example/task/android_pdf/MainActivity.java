@@ -5,11 +5,10 @@ import android.content.SharedPreferences;
 import android.graphics.Canvas;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.os.Environment;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -70,7 +69,6 @@ public class MainActivity extends AppCompatActivity implements OnPageChangeListe
 
                     @Override
                     public void onDownloading(int progress, String path) {
-
                         //获取一个文件名为test、权限为private的xml文件的SharedPreferences对象
                         SharedPreferences sharedPreferences = MainActivity.this.getSharedPreferences("test", MODE_PRIVATE);
 

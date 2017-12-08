@@ -1,4 +1,4 @@
-package com.example.task.android_pdf;
+package com.example.excel_demo;
 
 import android.os.Environment;
 import android.support.annotation.NonNull;
@@ -36,9 +36,10 @@ public class DownloadUtil {
     /**
      * @param url 下载连接
      * @param saveDir 储存下载文件的SDCard目录
+     * @param mSuperFileView2
      * @param listener 下载监听
      */
-    public void download(final String url, final String saveDir, final OnDownloadListener listener) {
+    public void download(final String url, final String saveDir, final SuperFileView2 mSuperFileView2, final OnDownloadListener listener) {
         Request request = new Request.Builder().url(url).build();
         okHttpClient.newCall(request).enqueue(new Callback() {
             @Override
@@ -48,10 +49,10 @@ public class DownloadUtil {
             }
             @Override
             public void onResponse(Call call, Response response) throws IOException {
-                InputStream is = null;
                 byte[] buf = new byte[2048];
                 int len = 0;
                 FileOutputStream fos = null;
+                InputStream is = null;
                 // 储存下载文件的目录
                 String savePath = isExistDir(saveDir);
                 try {
@@ -72,14 +73,21 @@ public class DownloadUtil {
                     fos.flush();
                     // 下载完成
                     listener.onDownloadSuccess();
+
+                    mSuperFileView2.displayFile(file);
                 } catch (Exception e) {
                     listener.onDownloadFailed();
                 } finally {
                     try {
-                        if (is != null)
+                        if (is != null) {
                             is.close();
-                        if (fos != null)
+                        }
+                    } catch (IOException e) {
+                    }
+                    try {
+                        if (fos != null) {
                             fos.close();
+                        }
                     } catch (IOException e) {
                     }
                 }
@@ -123,7 +131,7 @@ public class DownloadUtil {
          * @param progress
          * 下载进度
          */
-        void onDownloading(int progress,String path);
+        void onDownloading(int progress, String path);
 
         /**
          * 下载失败
